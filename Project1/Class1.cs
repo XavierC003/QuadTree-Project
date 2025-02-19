@@ -20,3 +20,18 @@ public class LeafNode : Node
     
 }
 
+// Internal node class representing a node that splits into four children
+public class InternalNode : Node
+{
+    // Array of four child nodes
+    public Node[] Children { get; set; } = new Node[4];
+}
+
+// Class representing a rectangle with position and dimensions
+public class Rectangle{
+    public int x { get; set; } // X=coordinate of the bottom left 
+    public int y { get; set; } // Y-Coordinate of the bottom left
+    public int Width { get; set; } // Width of the rectangle
+    public int Height { get; set; } // Height of the rectangle
+}
+
