@@ -55,6 +55,18 @@ public class Quadtree
     {
         root = new LeafNode {X = -50, Y = -50, Width = 100, Height = 100};
     }
+
+    // Insert Rectangle
+    public void Insert(int x, int y, int width, int height)
+    {
+        Console.WriteLine($"Inserting rectangle at ({x}, {y}) with size {width}x{height}");
+    }
+
+    // Delete Rectangle
+    public void Delete(int x, int y)
+    {
+        Console.WriteLine($"Deleting rectangle at ({x}, {y})");
+    }
 }
 
 // Program class test code
