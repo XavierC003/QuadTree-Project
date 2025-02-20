@@ -44,6 +44,19 @@ public Rectangle(int x, int y, int width, int height)
 
 }
 
+// Quadtree class representing the spatial data structure
+public class Quadtree
+{
+    // Root node of the quadtree
+    privatw Node root; // Root node of the quadtree
+
+    // Constructor initializing the quadtree with a root leaf node
+    public Quadtree()
+    {
+        root = new LeafNode {X = -50, Y = -50, Width = 100, Height = 100};
+    }
+}
+
 // Program class test code
 
 class Program 
