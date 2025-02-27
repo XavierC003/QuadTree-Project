@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 
+namespace QuadtreeProject {
 // Base class for quadtree nodes. Stores all the common properties
 public abstract class Node
 {
@@ -48,7 +49,9 @@ public Rectangle(int x, int y, int width, int height)
 public class Quadtree
 {
     // Root node of the quadtree
-    private Node root; // Root node of the quadtree
+    private Node root;
+    // Max rectangles before splitting
+    private const int Max_Rectangles = 5;
 
     // Constructor initializing the quadtree with a root leaf node
     public Quadtree()
@@ -65,7 +68,8 @@ public class Quadtree
     // Delete Rectangle at certain coordinates
     public void Delete(int x, int y)
     {
-        Console.WriteLine($"Deleting rectangle at ({x}, {y})");
+        Rectangle newRect = new Rectangle(x, y, width, height);
+        Insert(root, newRect);
     }
 
     // Finds a rectangle at certain coordinates
@@ -81,13 +85,5 @@ public class Quadtree
     }
 }
 
-// Program class test code
-
-class Program 
-{
-    static void Main(string[] args)
-    {
-        
-    }
-}
+// Main program class
 
