@@ -62,23 +62,31 @@ public class Quadtree
     // Insert Rectangle
     public void Insert(int x, int y, int width, int height)
     {
-        Rectangle newRect = new Rectangle(x, y, width, height);
-        Insert(root, newRect);
+       try {
+        Rectangle newRect = new Rectangle(x, y, width, height)
+       }
+       catch (Exception ex) {
+        Console.WriteLine($"Insertion failed: {ex.Message}");
+       }
     }
 
     // Recursive function to make sure the rectangle in the right node
     private void Insert(Node node, Rectangle rect)
     {
-        if (node is LeafNode leaf) {
+        try {
+            LeafNode leaf = node as LeafNode ?? throw new Exception("Node is not a leaf node");
             if (leaf.Rectangles.Count < Max_Rectangles) {
-                // Add rectangle if limit is not reached
+                // Add rectangle if hit limit
                 leaf.Rectangles.Add(rect);
             }
             else {
-                // Split node when limit is passed
+                //Split node when hit limit
                 Split(leaf);
                 Insert(root, rect);
             }
+        }
+        catch (Exception ex) {
+            Console.WriteLine($"Error during insertion: {ex.Message}");
         }
     }
 
