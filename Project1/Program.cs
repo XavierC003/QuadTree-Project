@@ -150,6 +150,19 @@ public class Quadtree
             Console.WriteLine(ex.Message);
         }
     }
+
+    public void Update(int x, int y, int width, int height) {
+        try {
+            LeafNode leaf = root as LeafNode ?? throw new Exception("Root is not a leaf node");
+            var rect = leaf.Rectangles.Find(r => r.X == x && r.Y == y) ?? throw new Exception($"Nothing to update at ({x}, {y})");
+            rect.Width = width;
+            rect.Height = height;
+            Console.WriteLine($"Updated rectangle at ({x}, {y}) to size {width}x{height}");
+        }
+        catch (Exception ex) {
+            Console.WriteLine($"Update failed: {ex.Message}");
+        }
+    }
 }
 }
 
