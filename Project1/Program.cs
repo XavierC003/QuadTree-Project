@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace QuadtreeProject {
 // Base class for quadtree nodes. Stores all the common properties
@@ -139,6 +140,15 @@ public class Quadtree
     public void Dump()
     {
         Console.WriteLine("Dumping quadtree...");
+        try {
+            LeafNode leaf = root as LeafNode ?? throw new Exception("Root is not a leaf node");
+            foreach (var rect in leaf.Rectangles) {
+                Console.WriteLine($"Rectangle at ({rect.X}, {rect.Y}): {rect.Wodth}x{rect.Height}");
+            }
+        }
+        catch (Exception ex) {
+            Console.WriteLine(ex.Message);
+        }
     }
 }
 }
