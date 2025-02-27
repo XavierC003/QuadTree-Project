@@ -111,15 +111,14 @@ public class Quadtree
     // Delete Rectangle at certain coordinates
     public void Delete(int x, int y)
     {
-        if (root is LeafNode leaf) {
-            var rect = leaf.Rectangles.Find(r => r.X == x && r.Y == y);
-            if (rect != null) {
-                leaf.Rectangles.Remove(rect);
-                Console.WriteLine($"Deleted rectangle at ({x}, {y})");
-            }
-            else {
-                Console.WriteLine($"Nothing is at {x}, {y}");
-            }
+        try {
+            LeafNode leaf = root as LeafNode ?? throw new Exception("Root is not a leaf node");
+            var rect = leaf.Rectangles.Find(r => r.X == x && r.Y == y) ?? throw new Exception($"Nothing to delete at ({x}, {y})");
+            leaf.Rectangles.Remove(rect);
+            Console.WriteLine($"Deleted rectangle at ({x}, {y})");
+        }
+        catch (Exception ex) {
+            Console.WriteLine($"Deletion failed: {ex.Message}");
         }
     }
 
