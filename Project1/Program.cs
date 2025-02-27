@@ -82,11 +82,35 @@ public class Quadtree
         }
     }
 
+    // Splits a leaf node into an internal node
+    private void Split(LeafNode leaf)
+    {
+        InternalNode internalNode = new InternalNode {
+            X = leaf.X,
+            Y = leaf.Y,
+            Width = leaf.Width,
+            Height = leaf.Height
+        };
+
+        for (int i = 0; i < 4; i++)
+        internalNode.Children[i] = new LeafNode { X = leaf.X, Y = leaf.Y, Width = leaf.Width / 2, Height = leaf.Height / 2};
+
+        root = internalNode;
+    }
+
     // Delete Rectangle at certain coordinates
     public void Delete(int x, int y)
     {
-        Rectangle newRect = new Rectangle(x, y, width, height);
-        Insert(root, newRect);
+        if (root is LeafNode leaf) {
+            var rect = leaf.Rectangles.Find(r => r.X == x && r.Y == y);
+            if (rect != null) {
+                leaf.Rectangles.Remove(rect);
+                Console.WriteLine($"Deleted rectangle at ({x}, {y})");
+            }
+            else {
+                Console.WriteLine($"Nothing is at {x}, {y}");
+            }
+        }
     }
 
     // Finds a rectangle at certain coordinates
@@ -100,6 +124,7 @@ public class Quadtree
     {
         Console.WriteLine("Dumping quadtree...");
     }
+}
 }
 
 // Main program class
