@@ -62,12 +62,14 @@ public class Quadtree
     // Insert Rectangle
     public void Insert(int x, int y, int width, int height)
     {
-       try {
-        Rectangle newRect = new Rectangle(x, y, width, height)
-       }
-       catch (Exception ex) {
-        Console.WriteLine($"Insertion failed: {ex.Message}");
-       }
+        try {
+            Rectangle newRect = new Rectangle(x, y, width, height);
+            Insert(root, newRect);
+            Console.WriteLine($"Inserted rectangle at ({x}, {y}) with size {width}x{height}");
+        }
+        catch (Exception ex) {
+            Console.WriteLine($"Insertion Failed: {ex.Message}");
+        }
     }
 
     // Recursive function to make sure the rectangle in the right node
