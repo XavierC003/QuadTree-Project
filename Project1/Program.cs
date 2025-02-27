@@ -48,7 +48,7 @@ public Rectangle(int x, int y, int width, int height)
 public class Quadtree
 {
     // Root node of the quadtree
-    privatw Node root; // Root node of the quadtree
+    private Node root; // Root node of the quadtree
 
     // Constructor initializing the quadtree with a root leaf node
     public Quadtree()
@@ -62,10 +62,22 @@ public class Quadtree
         Console.WriteLine($"Inserting rectangle at ({x}, {y}) with size {width}x{height}");
     }
 
-    // Delete Rectangle
+    // Delete Rectangle at certain coordinates
     public void Delete(int x, int y)
     {
         Console.WriteLine($"Deleting rectangle at ({x}, {y})");
+    }
+
+    // Finds a rectangle at certain coordinates
+    public void Find(int x, int y)
+    {
+        Console.WriteLine($"Finding rectangle at ({x}, {y}) ");
+    }
+
+    // Dumps the entire quadtree
+    public void Dump()
+    {
+        Console.WriteLine("Dumping quadtree...");
     }
 }
 
@@ -73,28 +85,9 @@ public class Quadtree
 
 class Program 
 {
-    static void Main()
+    static void Main(string[] args)
     {
-        Console.WriteLine("Creating a new rectangle...");
-
-        //rectangle instance
-        Rectangle rect = new Rectangle(10,20,30,40);
-
-        //Displaying rectangle properties
-        Console.WriteLine($"Rectangle created at ({rect.X}, {rect.Y}) with width {rect.Width}, and height {rect.Height}");
-
-        // Leaf node adding rectangle
-        LeafNode leaf = new LeafNode { X = 0, Y =0, Width = 100, Height = 100};
-        leaf.Rectangles.Add(rect);
-
-        Console.WriteLine("Added rectangle to LeafNode. ");
-        Console.WriteLine($"LeafNode contains {leaf.Rectangles.Count} rectangle(s).");
-
-        //Internal Node
-        InternalNode internalNode = new InternalNode { X = 0, Y = 0, Width = 200, Height = 200};
-        internalNode.Children[0] = leaf;
-
-        Console.WriteLine("InternalNode created and assigned a Leafnode as a child.");
+        
     }
 }
 
