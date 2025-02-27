@@ -125,7 +125,14 @@ public class Quadtree
     // Finds a rectangle at certain coordinates
     public void Find(int x, int y)
     {
-        Console.WriteLine($"Finding rectangle at ({x}, {y}) ");
+        try {
+            LeafNode leaf = root as LeafNode ?? throw new Exception("Root is not a leaf node");
+            var rect = leaf.Rectangles.Find(rect => r.X == x && r.Y == y) ?? throw new Exception($"Nothing is at ({x}, {y})");
+            Console.WriteLine($"Rectangle at ({x}, {y}): {rect.Width}x{rect.Height}");
+        }
+        catch (Exception ex) {
+            Console.WriteLine($"Find operation failed: {ex.Message}");
+        }
     }
 
     // Dumps the entire quadtree
