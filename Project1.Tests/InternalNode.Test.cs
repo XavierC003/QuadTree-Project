@@ -1,6 +1,6 @@
 namespace Project1.Tests;
 
-public class UnitTest1
+public class InternalNodeTest
 {
     [Fact]
     public void Test1()
