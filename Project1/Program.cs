@@ -171,21 +171,26 @@ public class Quadtree
                 throw new FileNotFoundException("Command file not found.");
             
             foreach (var line in File.ReadLines(filePath)){
-                var parts = line.Split(' ');
+                Console.WriteLine($"Processing line: '{line}");
+                var parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length == 0) continue; // Skip empty lines
+
+                Console.WriteLine($"Parsed parts: {string.Join(", ", parts)}");
+
                 switch (parts[0]) {
-                    case "Insert":
+                    case "insert":
                         Insert(int.Parse(parts[1]), int.Parse(parts[2]), int.Parse(parts[3]), int.Parse(parts[4]));
                         break;
-                    case "Delete":
+                    case "delete":
                         Delete(int.Parse(parts[1]), int.Parse(parts[2]));
                         break;
-                    case "Find":
+                    case "find":
                         Find(int.Parse(parts[1]), int.Parse(parts[2]));
                         break;
-                    case "Update":
+                    case "update":
                         Update(int.Parse(parts[1]), int.Parse(parts[2]), int.Parse(parts[3]), int.Parse(parts[4]));
                         break;
-                    case "Dump":
+                    case "dump":
                         Dump();
                         break;
                     default:
