@@ -151,6 +151,7 @@ public class Quadtree
         }
     }
 
+    // Update the dimensions of rectangle
     public void Update(int x, int y, int width, int height) {
         try {
             LeafNode leaf = root as LeafNode ?? throw new Exception("Root is not a leaf node");
@@ -163,7 +164,42 @@ public class Quadtree
             Console.WriteLine($"Update failed: {ex.Message}");
         }
     }
+    // Read and process commands from a file
+    public void ProcessComands(string filePath) {
+        try {
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException("Command file not found.");
+            
+            foreach (var line in File.ReadLines(filePath)){
+                var parts = line.Split(' ');
+                switch (parts[0]) {
+                    case "Insert":
+                        Insert(int.Parse(parts[1]), int.Parse(parts[2]), int.Parse(parts[3]), int.Parse(parts[4]));
+                        break;
+                    case "Delete":
+                        Delete(int.Parse(parts[1]), int.Parse(parts[2]));
+                        break;
+                    case "Find":
+                        Find(int.Parse(parts[1]), int.Parse(parts[2]));
+                        break;
+                    case "Update":
+                        Update(int.Parse(parts[1]), int.Parse(parts[2]), int.Parse(parts[3]), int.Parse(parts[4]));
+                        break;
+                    case "Dump":
+                        Dump();
+                        break;
+                    default:
+                        Console.WriteLine("Error: Invalid command.");
+                        break;
+                }
+            }
+        }
+        catch (Exception ex) {
+            Console.WriteLine($"Error processing command file: {ex.Message}");
+        }
+    }
 }
+
 }
 
 // Main program class
