@@ -85,7 +85,7 @@ public class Quadtree
             else {
                 //Split node when hit limit
                 Split(leaf);
-                Insert(root, rect);
+                Insert(leaf, rect);
             }
         }
         catch (Exception ex) {
@@ -128,7 +128,7 @@ public class Quadtree
     {
         try {
             LeafNode leaf = root as LeafNode ?? throw new Exception("Root is not a leaf node");
-            var rect = leaf.Rectangles.Find(rect => r.X == x && r.Y == y) ?? throw new Exception($"Nothing is at ({x}, {y})");
+            var rect = leaf.Rectangles.Find(r => r.X == x && r.Y == y) ?? throw new Exception($"Nothing is at ({x}, {y})");
             Console.WriteLine($"Rectangle at ({x}, {y}): {rect.Width}x{rect.Height}");
         }
         catch (Exception ex) {
@@ -143,7 +143,7 @@ public class Quadtree
         try {
             LeafNode leaf = root as LeafNode ?? throw new Exception("Root is not a leaf node");
             foreach (var rect in leaf.Rectangles) {
-                Console.WriteLine($"Rectangle at ({rect.X}, {rect.Y}): {rect.Wodth}x{rect.Height}");
+                Console.WriteLine($"Rectangle at ({rect.X}, {rect.Y}): {rect.Width}x{rect.Height}");
             }
         }
         catch (Exception ex) {
@@ -165,7 +165,7 @@ public class Quadtree
         }
     }
     // Read and process commands from a file
-    public void ProcessComands(string filePath) {
+    public void ProcessCommands(string filePath) {
         try {
             if (!File.Exists(filePath))
                 throw new FileNotFoundException("Command file not found.");
@@ -199,8 +199,25 @@ public class Quadtree
         }
     }
 }
-
+    //Main program class
+    class Program {
+        static void Main(string[] args) {
+            // Create new quadtree
+            Quadtree qt = new Quadtree();
+            try {
+                if (args.Length > 0) {
+                    qt.ProcessCommands(args[0]);
+                }
+                else {
+                    Console.WriteLine("No command file provided.");
+                }
+            }
+            catch (Exception ex) {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+    }
 }
 
-// Main program class
+
 
