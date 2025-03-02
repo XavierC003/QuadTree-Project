@@ -151,7 +151,8 @@ public class Quadtree
                 if (cleanLine.EndsWith(";")) {
                     cleanLine = cleanLine.Substring(0, cleanLine.Length - 1);
                 }
-                Console.WriteLine($"Processing line: '{line}");
+
+                Console.WriteLine($"Processing line: '{cleanLine}");
                 var parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length == 0) continue; // Skip empty lines
 
