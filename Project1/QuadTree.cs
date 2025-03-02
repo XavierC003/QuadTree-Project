@@ -153,7 +153,7 @@ public class Quadtree
                 }
 
                 Console.WriteLine($"Processing line: '{cleanLine}");
-                var parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                var parts = cleanLine.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length == 0) continue; // Skip empty lines
 
                 Console.WriteLine($"Parsed parts: {string.Join(", ", parts)}");
