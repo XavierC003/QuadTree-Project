@@ -145,6 +145,12 @@ public class Quadtree
 
             foreach (var line in File.ReadLines(filePath))
             {
+                //Remove  any extra spaces
+                string cleanLine = line.Trim();
+                //Remove semicolon
+                if (cleanLine.EndsWith(";")) {
+                    cleanLine = cleanLine.Substring(0, cleanLine.Length - 1);
+                }
                 Console.WriteLine($"Processing line: '{line}");
                 var parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length == 0) continue; // Skip empty lines
