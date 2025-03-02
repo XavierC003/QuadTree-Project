@@ -64,10 +64,14 @@ public class Quadtree
             Height = leaf.Height
         };
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++) {
             internalNode.Children[i] = new LeafNode { X = leaf.X, Y = leaf.Y, Width = leaf.Width / 2, Height = leaf.Height / 2 };
+        }
 
-        root = internalNode;
+        foreach (var rect in leaf.Rectangles){
+            Insert(internalNode, rect);
+        }
+        leaf = internalNode;
     }
 
     // Delete Rectangle at certain coordinates
