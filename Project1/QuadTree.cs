@@ -32,24 +32,38 @@ public class Quadtree
     // Recursive function to make sure the rectangle in the right node
     private void Insert(Node node, Rectangle rect)
     {
+        InternalNode? internalNode = null;
         try
         {
             LeafNode leaf = node as LeafNode ?? throw new Exception("Node is not a leaf node");
-            if (leaf.Rectangles.Count < Max_Rectangles)
-            {
-                // Add rectangle if hit limit
+            try {
                 leaf.Rectangles.Add(rect);
+                return;
             }
-            else
-            {
-                //Split node when hit limit
+            catch {
                 Split(leaf);
-                Insert(leaf, rect);
             }
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine($"Error during insertion: {ex.Message}");
+            internalNode = node as InternalNode ?? throw new Exception("Node is not an internal node");
+        }
+
+        if (internalNode == null) {
+            throw new Exception("Internal node is null.");
+        }
+
+        try {
+            bool right = rect.X >= internalNode!.X + internalNode.Width / 2;
+            bool bottom = rect.Y >= internalNode.Y + internalNode.Height / 2;
+
+            int index = (right ? 1 : 0) + (bottom ? 2 : 0);
+
+            Insert(internalNode.Children[index], rect);
+        }
+
+        catch (Exception ex) {
+            Console.WriteLine($"Insert failed: {ex.Message}");
         }
     }
 
@@ -71,7 +85,11 @@ public class Quadtree
         foreach (var rect in leaf.Rectangles){
             Insert(internalNode, rect);
         }
-        leaf = internalNode;
+
+        if (root == leaf) {
+            root = internalNode;
+        }
+        
     }
 
     // Delete Rectangle at certain coordinates
@@ -106,22 +124,78 @@ public class Quadtree
     }
 
     // Dumps the entire quadtree
-    public void Dump()
+public void Dump()
+{
+    Console.WriteLine("Dumping quadtree...");
+    try
     {
-        Console.WriteLine("Dumping quadtree...");
+        Dump(root, 0); // Start dumping from the root with depth 0
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error while dumping quadtree: {ex.Message}");
+    }
+
+    // Nested recursive function with try-catch for safety
+    void Dump(Node node, int depth)
+    {
         try
         {
-            LeafNode leaf = root as LeafNode ?? throw new Exception("Root is not a leaf node");
-            foreach (var rect in leaf.Rectangles)
+            if (node == null)
             {
-                Console.WriteLine($"Rectangle at ({rect.X}, {rect.Y}): {rect.Width}x{rect.Height}");
+                Console.WriteLine("Error: Encountered a null node.");
+                return;
+            }
+
+            string indent = new string(' ', depth * 4); // Indentation for readability
+
+            if (node is LeafNode leaf)
+            {
+                Console.WriteLine($"{indent}LeafNode - ({leaf.X}, {leaf.Y}) - {leaf.Width}x{leaf.Height}");
+                
+                foreach (var rect in leaf.Rectangles)
+                {
+                    try
+                    {
+                        Console.WriteLine($"{indent}  rectangle - ({rect.X}, {rect.Y}) - {rect.Width}x{rect.Height}");
+                    }
+                    catch (Exception rectEx)
+                    {
+                        Console.WriteLine($"{indent}  Error while printing rectangle: {rectEx.Message}");
+                    }
+                }
+            }
+            else if (node is InternalNode internalNode)
+            {
+                Console.WriteLine($"{indent}InternalNode - ({internalNode.X}, {internalNode.Y}) - {internalNode.Width}x{internalNode.Height}");
+
+                foreach (var child in internalNode.Children)
+                {
+                    try
+                    {
+                        if (child != null)
+                        {
+                            Dump(child, depth + 1); // Recursive call for child nodes
+                        }
+                    }
+                    catch (Exception childEx)
+                    {
+                        Console.WriteLine($"{indent}  Error while dumping child node: {childEx.Message}");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine($"{indent}Error: Unknown node type.");
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"Error processing node at depth {depth}: {ex.Message}");
         }
     }
+}
+
 
     // Update the dimensions of rectangle
     public void Update(int x, int y, int width, int height)
