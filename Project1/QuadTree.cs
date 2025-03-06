@@ -93,20 +93,27 @@ public class Quadtree
     }
 
     // Delete Rectangle at certain coordinates
-    public void Delete(int x, int y)
+// Delete Rectangle at certain coordinates with specific dimensions
+public void Delete(int x, int y, int width = -1, int height = -1)
+{
+    try
     {
-        try
-        {
-            LeafNode leaf = root as LeafNode ?? throw new Exception("Root is not a leaf node");
-            var rect = leaf.Rectangles.Find(r => r.X == x && r.Y == y) ?? throw new Exception($"Nothing to delete at ({x}, {y})");
-            leaf.Rectangles.Remove(rect);
-            Console.WriteLine($"Deleted rectangle at ({x}, {y})");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Deletion failed: {ex.Message}");
-        }
+        LeafNode leaf = root as LeafNode ?? throw new Exception("Root is not a leaf node");
+        
+        // Find rectangle that matches position and optionally size
+        var rect = leaf.Rectangles.Find(r => r.X == x && r.Y == y && 
+                    (width == -1 || r.Width == width) && (height == -1 || r.Height == height)) 
+                    ?? throw new Exception($"Nothing to delete at ({x}, {y}) with size {width}x{height}");
+        
+        leaf.Rectangles.Remove(rect);
+        Console.WriteLine($"Deleted rectangle at ({x}, {y}) with size {rect.Width}x{rect.Height}");
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Deletion failed: {ex.Message}");
+    }
+}
+
 
     // Finds a rectangle at certain coordinates
     public void Find(int x, int y)
@@ -245,22 +252,30 @@ public void Dump()
                             throw new FormatException("Insert command contains invalid number format.");
                         Insert(ix, iy, iw, ih);
                         break;
-
+                        
                         case "delete":
-                        if (parts.Length != 3) throw new Exception("Delete requires 2 arguments.");
+                        if (parts.Length != 3 && parts.Length != 5)
+                        throw new Exception("Delete requires either 2 or 4 arguments.");
                         if (!int.TryParse(parts[1], out int dx) || !int.TryParse(parts[2], out int dy))
+                        throw new FormatException("Delete command contains invalid number format.");
+                        if (parts.Length == 5) {
+                            if (!int.TryParse(parts[3], out int dw) || !int.TryParse(parts[4], out int dh))
                             throw new FormatException("Delete command contains invalid number format.");
-                        Delete(dx, dy);
+                            Delete(dx, dy, dw, dh);
+                        }
+                        else {
+                            Delete(dx, dy);
+                        }
                         break;
 
-                    case "find":
+                        case "find":
                         if (parts.Length != 3) throw new Exception("Find requires 2 arguments.");
                         if (!int.TryParse(parts[1], out int fx) || !int.TryParse(parts[2], out int fy))
                             throw new FormatException("Find command contains invalid number format.");
                         Find(fx, fy);
                         break;
 
-                    case "update":
+                        case "update":
                         if (parts.Length != 5) throw new Exception("Update requires 4 arguments.");
                         if (!int.TryParse(parts[1], out int ux) || !int.TryParse(parts[2], out int uy) ||
                             !int.TryParse(parts[3], out int uw) || !int.TryParse(parts[4], out int uh))
@@ -268,12 +283,12 @@ public void Dump()
                         Update(ux, uy, uw, uh);
                         break;
 
-                    case "dump":
+                        case "dump":
                         if (parts.Length != 1) throw new Exception("Dump takes no arguments.");
                         Dump();
                         break;
 
-                    default:
+                        default:
                         throw new Exception($"Unknown command: {parts[0]}");
                 }
             }
