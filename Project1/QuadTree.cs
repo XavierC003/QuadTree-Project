@@ -147,7 +147,7 @@ public void Dump()
                 return;
             }
 
-            string indent = new string(' ', depth * 4); // Indentation for readability
+            string indent = new string('\t', depth * 4); // Indentation for readability
 
             if (node is LeafNode leaf)
             {
