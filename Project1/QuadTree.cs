@@ -230,38 +230,70 @@ public void Dump()
                     cleanLine = cleanLine.Substring(0, cleanLine.Length - 1);
                 }
 
-                Console.WriteLine($"Processing line: '{cleanLine}");
+                Console.WriteLine($"Processing line: '{cleanLine}'");
                 var parts = cleanLine.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length == 0) continue; // Skip empty lines
 
                 Console.WriteLine($"Parsed parts: {string.Join(", ", parts)}");
+                try{
+                    switch (parts[0].ToLower()) // Ensure commands are case-insensitive
+                    {
+                        case "insert":
+                        if (parts.Length != 5) throw new Exception("Insert requires 4 arguments.");
+                        if (!int.TryParse(parts[1], out int ix) || !int.TryParse(parts[2], out int iy) ||
+                            !int.TryParse(parts[3], out int iw) || !int.TryParse(parts[4], out int ih))
+                            throw new FormatException("Insert command contains invalid number format.");
+                        Insert(ix, iy, iw, ih);
+                        break;
 
-                switch (parts[0])
-                {
-                    case "insert":
-                        Insert(int.Parse(parts[1]), int.Parse(parts[2]), int.Parse(parts[3]), int.Parse(parts[4]));
+                        case "delete":
+                        if (parts.Length != 3) throw new Exception("Delete requires 2 arguments.");
+                        if (!int.TryParse(parts[1], out int dx) || !int.TryParse(parts[2], out int dy))
+                            throw new FormatException("Delete command contains invalid number format.");
+                        Delete(dx, dy);
                         break;
-                    case "delete":
-                        Delete(int.Parse(parts[1]), int.Parse(parts[2]));
-                        break;
+
                     case "find":
-                        Find(int.Parse(parts[1]), int.Parse(parts[2]));
+                        if (parts.Length != 3) throw new Exception("Find requires 2 arguments.");
+                        if (!int.TryParse(parts[1], out int fx) || !int.TryParse(parts[2], out int fy))
+                            throw new FormatException("Find command contains invalid number format.");
+                        Find(fx, fy);
                         break;
+
                     case "update":
-                        Update(int.Parse(parts[1]), int.Parse(parts[2]), int.Parse(parts[3]), int.Parse(parts[4]));
+                        if (parts.Length != 5) throw new Exception("Update requires 4 arguments.");
+                        if (!int.TryParse(parts[1], out int ux) || !int.TryParse(parts[2], out int uy) ||
+                            !int.TryParse(parts[3], out int uw) || !int.TryParse(parts[4], out int uh))
+                            throw new FormatException("Update command contains invalid number format.");
+                        Update(ux, uy, uw, uh);
                         break;
+
                     case "dump":
+                        if (parts.Length != 1) throw new Exception("Dump takes no arguments.");
                         Dump();
                         break;
+
                     default:
-                        Console.WriteLine("Error: Invalid command.");
-                        break;
+                        throw new Exception($"Unknown command: {parts[0]}");
                 }
             }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error processing command file: {ex.Message}");
+            catch (FormatException fe)
+            {
+                Console.WriteLine($"Error: {fe.Message}");
+                Environment.Exit(1); // Required exit on invalid number formats
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                Environment.Exit(1); // Required exit on parsing or unknown command errors
+            }
         }
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error processing command file: {ex.Message}");
+        Environment.Exit(1);
+    }
+}
+
 }
