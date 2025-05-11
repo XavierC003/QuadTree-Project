@@ -2,21 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-
 namespace Project1
 {
-
-// Leaf node class representing a node that holds rectangles.
+    /// <summary>
+    /// A leaf node in the quadtree that stores rectangles directly.
+    /// </summary>
     public class LeafNode : Node
     {
         private const int Capacity = 5;
         private List<Rectangle> rectangles;
 
-
         /// <summary>
         /// Initializes a new instance of a LeafNode with spatial boundaries.
         /// </summary>
-        public LeafNode(int x, int y, int width, int height)
+        public LeafNode(double x, double y, double width, double height)
         {
             X = x;
             Y = y;
@@ -30,7 +29,7 @@ namespace Project1
         /// </summary>
         /// <returns>The original or new InternalNode after split</returns>
         /// <exception cref="Exception">Thrown if a rectangle already exists at the location</exception>
-        public override Node Insert(int x, int y, int width, int height)
+        public override Node Insert(double x, double y, double width, double height)
         {
             foreach (var rect in rectangles)
             {
@@ -57,8 +56,7 @@ namespace Project1
         /// Deletes a rectangle at the specified location.
         /// </summary>
         /// <exception cref="Exception">Thrown if no rectangle found</exception>
-
-        public override Node Delete(int x, int y)
+        public override Node Delete(double x, double y)
         {
             for (int i = 0; i < rectangles.Count; i++)
             {
@@ -77,23 +75,22 @@ namespace Project1
         /// </summary>
         /// <returns>Formatted string with rectangle info</returns>
         /// <exception cref="Exception">Thrown if not found</exception>
-        public override string Find(int x, int y)
+        public override string Find(double x, double y)
         {
             foreach (var rect in rectangles)
             {
                 if (rect.X == x && rect.Y == y)
-                    return $"Rectangle at {x}, {y}: {rect.Width}x{rect.Height}";
+                    return $"rectangle - ({x}, {y}) - {rect.Width}x{rect.Height}";
             }
 
             throw new Exception($"Nothing is at {x}, {y}.");
         }
 
-
         /// <summary>
         /// Updates the width and height of a rectangle at a given location.
         /// </summary>
         /// <exception cref="Exception">Thrown if not found</exception>
-        public override Node Update(int x, int y, int newW, int newH)
+        public override Node Update(double x, double y, double newW, double newH)
         {
             foreach (var rect in rectangles)
             {
@@ -113,10 +110,11 @@ namespace Project1
         /// </summary>
         public override void Dump(StringBuilder sb, int depth)
         {
-            sb.AppendLine(new string('\t', depth) + $"Node at {X},{Y}: {Width}x{Height}");
+            string indent = new string(' ', depth * 4);
+            sb.AppendLine($"{indent}LeafNode - ({X}, {Y}) - {Width}x{Height}");
             foreach (var r in rectangles)
             {
-                sb.AppendLine(new string('\t', depth + 1) + $"Rectangle at {r.X}, {r.Y}: {r.Width}x{r.Height}");
+                sb.AppendLine($"{indent}    rectangle - ({r.X}, {r.Y}) - {r.Width}x{r.Height}");
             }
         }
     }

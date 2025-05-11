@@ -8,10 +8,10 @@ namespace Project1
 // Base class for quadtree nodes. Stores all the common properties
 public abstract class Node
 {
-    public int X { get; set; }  // X-coordinate of the node
-    public int Y { get; set; }  // Y-coordinate of the node
-    public int Width { get; set; }  // Width of the node's area
-    public int Height { get; set; }  // Height of the node's area
+    public double X { get; set; }  // X-coordinate of the node
+    public double Y { get; set; }  // Y-coordinate of the node
+    public double Width { get; set; }  // Width of the node's area
+    public double Height { get; set; }  // Height of the node's area
 
         /// <summary>
         /// Inserts a rectangle into the node.
@@ -22,7 +22,7 @@ public abstract class Node
         /// <param name="height">Height of rectangle</param>
         /// <returns>Updated node</returns>
         /// <exception cref="Exception">Thrown if insertion fails</exception>
-    public abstract Node Insert(int x, int y, int width, int height); // Method to insert a rectangle into the node
+    public abstract Node Insert(double x, double y, double width, double height); // Method to insert a rectangle into the node
 
             /// <summary>
         /// Deletes a rectangle at the given coordinates.
@@ -31,7 +31,7 @@ public abstract class Node
         /// <param name="y">Y position</param>
         /// <returns>Updated node</returns>
         /// <exception cref="Exception">If rectangle is not found</exception>
-    public abstract Node Delete(int x, int y); // Method to delete a rectangle from the node
+    public abstract Node Delete(double x, double y); // Method to delete a rectangle from the node
 
     /// <summary>
         /// Finds a rectangle at the given position.
@@ -40,7 +40,7 @@ public abstract class Node
         /// <param name="y">Y coordinate</param>
         /// <returns>A string description of the rectangle</returns>
         /// <exception cref="Exception">If no rectangle is found</exception>
-    public abstract string Find(int x, int y); // Method to find a rectangle at a given coordinate
+    public abstract string Find(double x, double y); // Method to find a rectangle at a given coordinate
 
       /// <summary>
         /// Updates an existing rectangle's size.
@@ -51,7 +51,7 @@ public abstract class Node
         /// <param name="newHeight">New height</param>
         /// <returns>Updated node</returns>
         /// <exception cref="Exception">If no rectangle is found to update</exception>
-    public abstract Node Update(int x, int y, int newWidth, int newHeight); // Method to update a rectangle in the node
+    public abstract Node Update(double x, double y, double newWidth, double newHeight); // Method to update a rectangle in the node
 
      /// <summary>
         /// Appends the structure of this node to the string builder for printing.
