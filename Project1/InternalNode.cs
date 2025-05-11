@@ -8,6 +8,10 @@ using System.Text;
     {
         private Node[] children;
 
+
+        /// <summary>
+        /// Creates an internal node and initializes its four child nodes.
+        /// </summary>
         public InternalNode(int x, int y, int width, int height)
         {
             X = x;
@@ -33,12 +37,19 @@ using System.Text;
             return right ? 1 : 0;
         }
 
+        /// <summary>
+        /// Inserts a rectangle by delegating to the appropriate child quadrant.
+        /// </summary>
         public override Node Insert(int x, int y, int width, int height)
         {
             int index = GetQuadrant(x, y);
             children[index] = children[index].Insert(x, y, width, height);
             return this;
         }
+
+        /// <summary>
+        /// Deletes a rectangle by locating the correct child.
+        /// </summary>
 
         public override Node Delete(int x, int y)
         {
@@ -47,11 +58,20 @@ using System.Text;
             return this;
         }
 
+        /// <summary>
+        /// Finds a rectangle by routing to the appropriate quadrant.
+        /// </summary>
+
         public override string Find(int x, int y)
         {
             int index = GetQuadrant(x, y);
             return children[index].Find(x, y);
         }
+
+
+        /// <summary>
+        /// Updates a rectangle by delegating to the correct child.
+        /// </summary>
 
         public override Node Update(int x, int y, int newW, int newH)
         {
@@ -59,6 +79,10 @@ using System.Text;
             children[index] = children[index].Update(x, y, newW, newH);
             return this;
         }
+
+        /// <summary>
+        /// Dumps the current node and all child subtrees recursively.
+        /// </summary>
 
         public override void Dump(StringBuilder sb, int depth)
         {
