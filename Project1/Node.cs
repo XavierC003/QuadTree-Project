@@ -11,13 +11,52 @@ public abstract class Node
     public int Width { get; set; }  // Width of the node's area
     public int Height { get; set; }  // Height of the node's area
 
+        /// <summary>
+        /// Inserts a rectangle into the node.
+        /// </summary>
+        /// <param name="x">X position of rectangle</param>
+        /// <param name="y">Y position of rectangle</param>
+        /// <param name="width">Width of rectangle</param>
+        /// <param name="height">Height of rectangle</param>
+        /// <returns>Updated node</returns>
+        /// <exception cref="Exception">Thrown if insertion fails</exception>
     public abstract Node Insert(int x, int y, int width, int height); // Method to insert a rectangle into the node
+
+            /// <summary>
+        /// Deletes a rectangle at the given coordinates.
+        /// </summary>
+        /// <param name="x">X position</param>
+        /// <param name="y">Y position</param>
+        /// <returns>Updated node</returns>
+        /// <exception cref="Exception">If rectangle is not found</exception>
     public abstract Node Delete(int x, int y); // Method to delete a rectangle from the node
+
+    /// <summary>
+        /// Finds a rectangle at the given position.
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        /// <returns>A string description of the rectangle</returns>
+        /// <exception cref="Exception">If no rectangle is found</exception>
     public abstract string Find(int x, int y); // Method to find a rectangle at a given coordinate
+
+      /// <summary>
+        /// Updates an existing rectangle's size.
+        /// </summary>
+        /// <param name="x">X coordinate of the rectangle</param>
+        /// <param name="y">Y coordinate of the rectangle</param>
+        /// <param name="newWidth">New width</param>
+        /// <param name="newHeight">New height</param>
+        /// <returns>Updated node</returns>
+        /// <exception cref="Exception">If no rectangle is found to update</exception>
     public abstract Node Update(int x, int y, int newWidth, int newHeight); // Method to update a rectangle in the node
+
+     /// <summary>
+        /// Appends the structure of this node to the string builder for printing.
+        /// </summary>
+        /// <param name="sb">StringBuilder to write output</param>
+        /// <param name="depth">Current depth in the tree</param>
     public abstract void Dump(StringBuilder sb, int depth); // Method to dump the node's structure for debugging
-
-
 
 }
 
