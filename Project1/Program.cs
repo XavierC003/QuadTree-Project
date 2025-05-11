@@ -1,32 +1,32 @@
-﻿namespace Project1;
-
-// See https://aka.ms/new-console-template for more information
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 
-
-//Main program class
-class Program
+namespace Project1
 {
-    static void Main(string[] args)
+    // Main program class
+    class Program
     {
-        // Create new quadtree
-        Quadtree qt = new Quadtree();
-        try
+        static void Main(string[] args)
         {
-            if (args.Length > 0)
+            // Create new quadtree
+            Quadtree qt = new Quadtree();
+            try
             {
-                qt.ProcessCommands(args[0]);
+                if (args.Length > 0)
+                {
+                    qt.ProcessCommands(args[0]);
+                }
+                else
+                {
+                    Console.WriteLine("No command file provided.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("No command file provided.");
+                Console.WriteLine($"Error: {ex.Message}");
             }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
         }
     }
 }
+

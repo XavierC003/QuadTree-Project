@@ -1,8 +1,10 @@
-namespace Project1;
-
 using System;
 using System.Collections.Generic;
 using System.Text;
+
+
+namespace Project1
+{
 
 // Leaf node class representing a node that holds rectangles.
     public class LeafNode : Node
@@ -118,3 +120,4 @@ using System.Text;
             }
         }
     }
+}

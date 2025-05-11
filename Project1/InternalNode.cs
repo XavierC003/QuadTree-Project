@@ -1,13 +1,13 @@
-namespace Project1
-
 using System.Text;
 
-
+namespace Project1
 {
+    /// <summary>
+    /// An internal node in the quadtree that contains four child quadrants.
+    /// </summary>
     public class InternalNode : Node
     {
         private Node[] children;
-
 
         /// <summary>
         /// Creates an internal node and initializes its four child nodes.
@@ -37,9 +37,7 @@ using System.Text;
             return right ? 1 : 0;
         }
 
-        /// <summary>
-        /// Inserts a rectangle by delegating to the appropriate child quadrant.
-        /// </summary>
+        /// <summary>Inserts a rectangle by delegating to the appropriate child quadrant.</summary>
         public override Node Insert(int x, int y, int width, int height)
         {
             int index = GetQuadrant(x, y);
@@ -47,10 +45,7 @@ using System.Text;
             return this;
         }
 
-        /// <summary>
-        /// Deletes a rectangle by locating the correct child.
-        /// </summary>
-
+        /// <summary>Deletes a rectangle by locating the correct child.</summary>
         public override Node Delete(int x, int y)
         {
             int index = GetQuadrant(x, y);
@@ -58,21 +53,14 @@ using System.Text;
             return this;
         }
 
-        /// <summary>
-        /// Finds a rectangle by routing to the appropriate quadrant.
-        /// </summary>
-
+        /// <summary>Finds a rectangle by routing to the appropriate quadrant.</summary>
         public override string Find(int x, int y)
         {
             int index = GetQuadrant(x, y);
             return children[index].Find(x, y);
         }
 
-
-        /// <summary>
-        /// Updates a rectangle by delegating to the correct child.
-        /// </summary>
-
+        /// <summary>Updates a rectangle by delegating to the correct child.</summary>
         public override Node Update(int x, int y, int newW, int newH)
         {
             int index = GetQuadrant(x, y);
@@ -80,10 +68,7 @@ using System.Text;
             return this;
         }
 
-        /// <summary>
-        /// Dumps the current node and all child subtrees recursively.
-        /// </summary>
-
+        /// <summary>Dumps the current node and all child subtrees recursively.</summary>
         public override void Dump(StringBuilder sb, int depth)
         {
             sb.AppendLine(new string('\t', depth) + $"Node at {X},{Y}: {Width}x{Height}");

@@ -1,7 +1,9 @@
-﻿namespace Project1;
-
-using System;
+﻿using System;
+using System.Text;
 using System.Collections.Generic;
+
+namespace Project1
+{
 
 // Base class for quadtree nodes. Stores all the common properties
 public abstract class Node
@@ -58,6 +60,7 @@ public abstract class Node
         /// <param name="depth">Current depth in the tree</param>
     public abstract void Dump(StringBuilder sb, int depth); // Method to dump the node's structure for debugging
 
+}
 }
 
 

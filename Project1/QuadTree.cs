@@ -1,8 +1,8 @@
-namespace Project1;
-
 using System;
 using System.Text;
 
+namespace Project1
+{
 
 // Quadtree class representing the spatial data structure
 public class Quadtree
@@ -67,5 +67,70 @@ public class Quadtree
             root.Dump(sb, 0);
             Console.Write(sb.ToString());
         }
-    }
 
+        /// <summary>
+/// Reads and executes commands from a given .cmmd file.
+/// </summary>
+/// <param name="filePath">Path to the command file</param>
+/// <exception cref="FileNotFoundException">Thrown if the file does not exist</exception>
+/// <exception cref="FormatException">Thrown if any command has invalid numbers</exception>
+/// <exception cref="Exception">Thrown for unknown or malformed commands</exception>
+public void ProcessCommands(string filePath)
+{
+    try
+    {
+        if (!File.Exists(filePath))
+            throw new FileNotFoundException("Command file not found.");
+
+        foreach (var line in File.ReadLines(filePath))
+        {
+            string cleanLine = line.Trim();
+            if (cleanLine.EndsWith(";"))
+                cleanLine = cleanLine[..^1];
+
+            var parts = cleanLine.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 0) continue;
+
+            switch (parts[0].ToLower())
+            {
+                case "insert":
+                    if (parts.Length != 5)
+                        throw new FormatException("Insert requires 4 arguments.");
+                    Insert(int.Parse(parts[1]), int.Parse(parts[2]), int.Parse(parts[3]), int.Parse(parts[4]));
+                    break;
+
+                case "delete":
+                    if (parts.Length != 3)
+                        throw new FormatException("Delete requires 2 arguments.");
+                    Delete(int.Parse(parts[1]), int.Parse(parts[2]));
+                    break;
+
+                case "find":
+                    if (parts.Length != 3)
+                        throw new FormatException("Find requires 2 arguments.");
+                    Find(int.Parse(parts[1]), int.Parse(parts[2]));
+                    break;
+
+                case "update":
+                    if (parts.Length != 5)
+                        throw new FormatException("Update requires 4 arguments.");
+                    Update(int.Parse(parts[1]), int.Parse(parts[2]), int.Parse(parts[3]), int.Parse(parts[4]));
+                    break;
+
+                case "dump":
+                    Dump();
+                    break;
+
+                default:
+                    throw new Exception($"Unknown command: {parts[0]}");
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error processing commands: {ex.Message}");
+        Environment.Exit(1);
+    }
+}
+    }
+}
